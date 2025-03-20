@@ -15,10 +15,10 @@
     # install packages
     environment.systemPackages = with pkgs; [
         neofetch
-            temurin-jre-bin-17
-            docker
-            docker-compose
-            certbot
+        temurin-jre-bin-17
+        docker
+        docker-compose
+        certbot
     ];
 
     # generate ssl certificates
