@@ -1,18 +1,36 @@
-{ config, pkgs, ...}
+{ config, pkgs, ... }:
 
 {
-    # enable nginx
-    services.nginx.enable = true;
+    services.nginx = {
+        enable = true;
+        virtualHosts."lsdevcloud.net" = {
+            root = "/var/www/lsdevcloud.net";
+            serverName = "lsdevcloud.net";
+            enableACME = true;
+            email = "admin@lsdevcloud.net";
+            forceSSL = true;
+        };
+    };
 
-    # install neofetch
+    # install packages
     environment.systemPackages = with pkgs; [
         neofetch
-        temurin-jre-bin-17
-        docker 
-        docker-compose
+            temurin-jre-bin-17
+            docker
+            docker-compose
+            certbot
     ];
 
-    # set version
+    # generate ssl certificates
+    security.acme = {
+        enable = true;
+        certs."lsdevcloud.net" = {
+            email = "abuse@lsdevcloud.net";
+            webroot = "/var/www/lsdevcloud.net"; 
+        };
+    };
+
+    # set system version
     system.stateVersion = "24.11";
 }
 
